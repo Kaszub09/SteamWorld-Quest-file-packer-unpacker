@@ -48,7 +48,7 @@ namespace SteamWorldQuestFileUnpacker
         }
 
 
-        private async void Button_Click_2(object sender, RoutedEventArgs e)
+        private async void packButton_Click(object sender, RoutedEventArgs e)
         {
             fileList.RemoveAll(filePath => filePath.Substring(filePath.Length - 2) == ".z");
 
@@ -78,29 +78,29 @@ namespace SteamWorldQuestFileUnpacker
 
         }
     
-        private async void Button_Click_3(object sender, RoutedEventArgs e)
+        private async void unpackButton_Click(object sender, RoutedEventArgs e)
         {
             fileList.RemoveAll(filePath => filePath.Substring(filePath.Length - 2) != ".z");
 
-            var progress = new Progress<Tuple<int,string>>(value => currentOperationText.Text = "Processing "+value.Item1 + "/" + fileList.Count.ToString() +" file: " + value.Item2);
+            var progress = new Progress<Tuple<int, string>>(value => currentOperationText.Text = "Processing " + value.Item1 + "/" + fileList.Count.ToString() + " file: " + value.Item2);
             await Task.Run(() =>
             {
                 int k = 1;
                 foreach (string filePath in fileList)
-                {                 
-                    ((IProgress<Tuple<int, string>>)progress).Report(Tuple.Create<int, string>(k,System.IO.Path.GetFileName(filePath)));
-                    using(FileStream fs = File.OpenRead(filePath))
+                {
+                    ((IProgress<Tuple<int, string>>)progress).Report(Tuple.Create<int, string>(k, System.IO.Path.GetFileName(filePath)));
+                    using (FileStream fs = File.OpenRead(filePath))
                     {
                         for (int i = 1; i <= 4; i++)
                             fs.ReadByte();
-                        using(FileStream streamWriter = File.Open(filePath.Remove(filePath.Length - 2), FileMode.Create))
-                        using(Stream decompressor = new ZlibStream(fs, CompressionMode.Decompress, CompressionLevel.Default))
+                        using (FileStream streamWriter = File.Open(filePath.Remove(filePath.Length - 2), FileMode.Create))
+                        using (Stream decompressor = new ZlibStream(fs, CompressionMode.Decompress, CompressionLevel.Default))
                         {
-                            decompressor.CopyTo(streamWriter,4096);
+                            decompressor.CopyTo(streamWriter, 4096);
                         }
                     }
-                    k++;                 
-                }    
+                    k++;
+                }
             });
             fileList.Clear();
             currentOperationText.Text = "Finished";

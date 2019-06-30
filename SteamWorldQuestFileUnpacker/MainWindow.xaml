@@ -10,8 +10,8 @@
         <Label  Content="Files:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="35" Width="40" Foreground="White"/>
         <TextBox  x:Name="sourcePathText" Margin="55,10,41.6,0" TextWrapping="Wrap" Height="23" VerticalAlignment="Top" FontSize="14"/>
         <Button  Content="..." Margin="0,10,12,0" Click="Button_Click" HorizontalAlignment="Right" Width="25" Height="22" VerticalAlignment="Top"/>
-        <Button  Content="Unpack" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_3"  Height="22"/>
-        <Button Content="Pack" HorizontalAlignment="Left" Margin="90,45,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2" Height="22"/>
+        <Button x:Name="unpackButton"  Content="Unpack" HorizontalAlignment="Left" Margin="10,45,0,0" VerticalAlignment="Top" Width="75" Click="unpackButton_Click"  Height="22"/>
+        <Button x:Name="packButton"  Content="Pack" HorizontalAlignment="Left" Margin="90,45,0,0" VerticalAlignment="Top" Width="75" Click="packButton_Click" Height="22"/>
 
         <TextBox  x:Name="currentOperationText" Margin="170,45,11.6,0" VerticalAlignment="Top"/>
     </Grid>
