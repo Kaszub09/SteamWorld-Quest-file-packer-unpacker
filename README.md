@@ -9,5 +9,5 @@ All files will be overwritten.
 
 Example: en.csv.z will be unpacked into en.csv in the same folder, overwriting en.csv if it already exist.
 
-Some files may not work.
+Some files (e.g. es.csv.z, ja.csv.z) may not work.
 
