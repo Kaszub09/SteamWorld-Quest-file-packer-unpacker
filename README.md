@@ -1,5 +1,5 @@
 # SteamWorldQuestFileUnpacker
-Application for packing/unpacking files from the game SteamWorld Quest.
+Application for packing/unpacking files from the game SteamWorld Quest. Requires .NET Framework 4.5.
 
 # Usage
 Select files.
