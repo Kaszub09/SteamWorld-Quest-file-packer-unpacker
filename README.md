@@ -8,6 +8,3 @@ Pack will pack all selected files without .z extenion into the same folder.
 All files will be overwritten. 
 
 Example: en.csv.z will be unpacked into en.csv in the same folder, overwriting en.csv if it already exist.
-
-Some files (e.g. es.csv.z, ja.csv.z) may not work.
-
