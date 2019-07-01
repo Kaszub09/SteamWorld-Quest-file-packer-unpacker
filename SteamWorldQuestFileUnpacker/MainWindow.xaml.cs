@@ -25,9 +25,7 @@ namespace SteamWorldQuestFileUnpacker
             this.MinWidth = 400;
         }
 
-
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void fileChooser_Click(object sender, RoutedEventArgs e)
         {
             fileList.Clear();
             StringBuilder fileNames = new StringBuilder();
@@ -43,15 +41,15 @@ namespace SteamWorldQuestFileUnpacker
                     fileNames.Append("\n");
                     fileList.Add(filename);
                 }
-
             sourcePathText.Text = fileNames.ToString();
         }
 
-
         private async void packButton_Click(object sender, RoutedEventArgs e)
         {
+            packButton.IsEnabled = false;
+            unpackButton.IsEnabled = false;
+            fileChooser.IsEnabled = false;
             fileList.RemoveAll(filePath => filePath.Substring(filePath.Length - 2) == ".z");
-
             var progress = new Progress<Tuple<int, string>>(value => currentOperationText.Text = "Processing " + value.Item1 + "/" + fileList.Count.ToString() + " file: " + value.Item2);
             await Task.Run(() =>
             {
@@ -67,21 +65,24 @@ namespace SteamWorldQuestFileUnpacker
                         if (!BitConverter.IsLittleEndian)
                             Array.Reverse(fileSize);
                         streamWriter.Write(fileSize, 0, 4);
-                        compressor.CopyTo(streamWriter, 4096);
+                        compressor.CopyTo(streamWriter,4096);
                     }
-                    k++;
-                    
+                    k++;                 
                 }
             });
             fileList.Clear();
             currentOperationText.Text = "Finished";
-
+            packButton.IsEnabled = true;
+            unpackButton.IsEnabled = true;
+            fileChooser.IsEnabled = true;
         }
     
         private async void unpackButton_Click(object sender, RoutedEventArgs e)
         {
+            packButton.IsEnabled = false;
+            unpackButton.IsEnabled = false;
+            fileChooser.IsEnabled = false;
             fileList.RemoveAll(filePath => filePath.Substring(filePath.Length - 2) != ".z");
-
             var progress = new Progress<Tuple<int, string>>(value => currentOperationText.Text = "Processing " + value.Item1 + "/" + fileList.Count.ToString() + " file: " + value.Item2);
             await Task.Run(() =>
             {
@@ -96,7 +97,7 @@ namespace SteamWorldQuestFileUnpacker
                         using (FileStream streamWriter = File.Open(filePath.Remove(filePath.Length - 2), FileMode.Create))
                         using (Stream decompressor = new ZlibStream(fs, CompressionMode.Decompress, CompressionLevel.Default))
                         {
-                            decompressor.CopyTo(streamWriter, 4096);
+                            decompressor.CopyTo(streamWriter,4096);
                         }
                     }
                     k++;
@@ -104,6 +105,11 @@ namespace SteamWorldQuestFileUnpacker
             });
             fileList.Clear();
             currentOperationText.Text = "Finished";
+            packButton.IsEnabled = true;
+            unpackButton.IsEnabled = true;
+            fileChooser.IsEnabled = true;
         }
+
+
     }
 }
